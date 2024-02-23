@@ -17,7 +17,7 @@ env = TimeLimit(
 
 
 class ProjectAgent:
-    def __init__(self, num_actions, gamma=0.99, iterations=20, horizon=1000):
+    def __init__(self, num_actions, gamma=0.99, iterations=500, horizon=1000):
         self.num_actions = num_actions
         self.gamma = gamma
         self.iterations = iterations
@@ -96,6 +96,6 @@ def collect_samples(env, horizon, disable_tqdm=False):
 
 agent = ProjectAgent(num_actions=4)
 
-S, A, R, S2, D = collect_samples(env, horizon=50)
+S, A, R, S2, D = collect_samples(env, horizon=500)
 agent.fit(S, A, R, S2, D)
 agent.save("agent_model.pkl")
