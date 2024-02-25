@@ -17,11 +17,10 @@ env = TimeLimit(
 
 
 class ProjectAgent:
-    def __init__(self, num_actions, gamma=0.99, iterations=500, horizon=1000):
+    def __init__(self, num_actions, gamma=0.99, iterations=400):
         self.num_actions = num_actions
         self.gamma = gamma
         self.iterations = iterations
-        self.horizon = horizon
         self.q_functions = None
 
     def fit(self, S, A, R, S2, D, disable_tqdm=False):
@@ -31,7 +30,7 @@ class ProjectAgent:
         if self.q_functions is None:
             raise ValueError("Agent must be trained before acting.")
         Q_values = np.zeros(self.num_actions)
-        last_q = self.q_functions[-1]
+        last_q = self.q_functions
         for a in range(self.num_actions):
             SA = np.hstack((observation, np.array([[a]] * len(observation))))
             Q_values[a] = last_q.predict(SA)
@@ -47,7 +46,7 @@ class ProjectAgent:
 
 def rf_fqi(S, A, R, S2, D, iterations, nb_actions, gamma, disable_tqdm=False):
     nb_samples = S.shape[0]
-    Qfunctions = []
+    Q = None 
     SA = np.append(S, A, axis=1)
     for iter in tqdm(range(iterations), disable=disable_tqdm):
         if iter == 0:
@@ -57,13 +56,13 @@ def rf_fqi(S, A, R, S2, D, iterations, nb_actions, gamma, disable_tqdm=False):
             for a2 in range(nb_actions):
                 A2 = a2 * np.ones((S.shape[0], 1))
                 S2A2 = np.append(S2, A2, axis=1)
-                Q2[:, a2] = Qfunctions[-1].predict(S2A2)
+                Q2[:, a2] = Q.predict(S2A2) if Q is not None else np.zeros(nb_samples)
             max_Q2 = np.max(Q2, axis=1)
             value = R + gamma * (1 - D) * max_Q2
         Q = RandomForestRegressor()
         Q.fit(SA, value)
-        Qfunctions.append(Q)
-    return Qfunctions
+    return Q  
+
 
 def collect_samples(env, horizon, disable_tqdm=False):
     S = []
@@ -96,6 +95,6 @@ def collect_samples(env, horizon, disable_tqdm=False):
 
 agent = ProjectAgent(num_actions=4)
 
-S, A, R, S2, D = collect_samples(env, horizon=500)
+S, A, R, S2, D = collect_samples(env, horizon=1000)
 agent.fit(S, A, R, S2, D)
 agent.save("agent_model.pkl")
