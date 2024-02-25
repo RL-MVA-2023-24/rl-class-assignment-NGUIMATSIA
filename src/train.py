@@ -17,7 +17,7 @@ env = TimeLimit(
 
 
 class ProjectAgent:
-    def __init__(self, num_actions, gamma=0.99, iterations=400):
+    def __init__(self, num_actions, gamma=0.99, iterations=5):
         self.num_actions = num_actions
         self.gamma = gamma
         self.iterations = iterations
@@ -59,7 +59,7 @@ def rf_fqi(S, A, R, S2, D, iterations, nb_actions, gamma, disable_tqdm=False):
                 Q2[:, a2] = Q.predict(S2A2) if Q is not None else np.zeros(nb_samples)
             max_Q2 = np.max(Q2, axis=1)
             value = R + gamma * (1 - D) * max_Q2
-        Q = RandomForestRegressor()
+        Q = RandomForestRegressor(max_depth=5, min_samples_split=8)
         Q.fit(SA, value)
     return Q  
 
@@ -91,3 +91,8 @@ def collect_samples(env, horizon, disable_tqdm=False):
     S2 = np.array(S2)
     D = np.array(D)
     return S, A, R, S2, D
+
+S, A, R, S2, D = collect_samples(env, horizon= 10)
+
+agent = ProjectAgent(num_actions=4)
+agent.fit(S, A, R, S2, D)
