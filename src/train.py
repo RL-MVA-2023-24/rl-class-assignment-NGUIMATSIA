@@ -32,6 +32,7 @@ class ProjectAgent:
         Q_values = np.zeros(self.num_actions)
         last_q = self.q_functions
         for a in range(self.num_actions):
+            print(observation.shape[0])
             A = a * np.ones((observation.shape[0], 1))
             SA = np.append(observation, A, axis=1)
             Q_values[a] = last_q.predict(SA)
