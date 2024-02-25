@@ -32,7 +32,7 @@ class ProjectAgent:
         Q_values = np.zeros(self.num_actions)
         last_q = self.q_functions
         for a in range(self.num_actions):
-            SA = np.array(list(observation).append(a))
+            SA = np.array(list(observation).append(a)).reshape(1, 7)
             Q_values[a] = last_q.predict(SA)
             return np.argmax(Q_values)
 
