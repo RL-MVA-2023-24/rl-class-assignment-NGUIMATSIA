@@ -41,7 +41,7 @@ class ProjectAgent:
             pickle.dump(self.q_functions, f)
 
     def load(self):
-        with open("agent_model.pkl", 'rb') as f:
+        with open("/home/runner/work/rl-class-assignment-NGUIMATSIA/rl-class-assignment-NGUIMATSIA/src/agent_model.pkl", 'rb') as f:
             self.q_functions = pickle.load(f)
 
 def rf_fqi(S, A, R, S2, D, iterations, nb_actions, gamma, disable_tqdm=False):
