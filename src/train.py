@@ -32,10 +32,7 @@ class ProjectAgent:
         Q_values = np.zeros(self.num_actions)
         last_q = self.q_functions
         for a in range(self.num_actions):
-            A = a * np.ones((observation.shape[0], 1))
-            observation = np.expand_dims(observation, axis=1)
-            SA = np.append(observation, A, axis=1)
-            print(SA)
+            SA = np.array(list(observation).append(a))
             Q_values[a] = last_q.predict(SA)
             return np.argmax(Q_values)
 
@@ -78,6 +75,7 @@ def collect_samples(env, horizon, disable_tqdm=False):
         for _ in range(horizon):
             a = env.action_space.sample()
             s2, r, done, trunc, _ = env.step(a)
+            print(type(s2))
             S.append(s)
             A.append(a)
             R.append(r)
@@ -94,4 +92,7 @@ def collect_samples(env, horizon, disable_tqdm=False):
     S2 = np.array(S2)
     D = np.array(D)
     return S, A, R, S2, D
+
+
+
 
