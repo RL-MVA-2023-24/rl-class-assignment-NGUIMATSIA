@@ -40,8 +40,8 @@ class ProjectAgent:
         with open(filename, 'wb') as f:
             pickle.dump(self.q_functions, f)
 
-    def load(self, filename ="/rl-class-assignment-NGUIMATSIA/rl-class-assignment-NGUIMATSIA/src/agent_model.pkl"):
-        with open(filename, 'rb') as f:
+    def load(self):
+        with open("agent_model.pkl", 'rb') as f:
             self.q_functions = pickle.load(f)
 
 def rf_fqi(S, A, R, S2, D, iterations, nb_actions, gamma, disable_tqdm=False):
