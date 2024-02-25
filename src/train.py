@@ -91,10 +91,3 @@ def collect_samples(env, horizon, disable_tqdm=False):
     S2 = np.array(S2)
     D = np.array(D)
     return S, A, R, S2, D
-
-
-agent = ProjectAgent(num_actions=4)
-
-S, A, R, S2, D = collect_samples(env, horizon=1000)
-agent.fit(S, A, R, S2, D)
-agent.save("agent_model.pkl")
