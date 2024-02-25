@@ -35,6 +35,7 @@ class ProjectAgent:
             A = a * np.ones((observation.shape[0], 1))
             observation = np.expand_dims(observation, axis=1)
             SA = np.append(observation, A, axis=1)
+            print(SA)
             Q_values[a] = last_q.predict(SA)
             return np.argmax(Q_values)
 
