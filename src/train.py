@@ -241,6 +241,3 @@ class ProjectAgent:
         self.model.load_state_dict(self.best_model.state_dict())
         self.save()
         return episode_return
-
-agent = ProjectAgent()
-agent.train()
