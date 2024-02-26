@@ -49,7 +49,7 @@ class ProjectAgent:
 
     def load(self):
         device = torch.device('cpu')
-        self.path = os.getcwd() + "/model_DQN_best.pt"
+        self.path = "/home/runner/work/rl-class-assignment-NGUIMATSIA/model_DQN_best.pt"
         self.model = self.network({}, device)
         self.model.load_state_dict(torch.load(self.path, map_location=device))
         self.model.eval()
@@ -119,9 +119,9 @@ class ProjectAgent:
         # Configuration 
         config = {'nb_actions': environment.action_space.n,
                 'learning_rate': 0.001,
-                'gamma': 0.98,
+                'gamma': 0.97,
                 'buffer_size': 100000,
-                'epsilon_min': 0.02,
+                'epsilon_min': 0.01,
                 'epsilon_max': 1.,
                 'epsilon_decay_period': 20000, 
                 'epsilon_delay_decay': 100,
@@ -172,7 +172,7 @@ class ProjectAgent:
         previous_val = 0
         
 
-        max_episode = 240 
+        max_episode = 300
 
         episode_return = []
         episode = 0
