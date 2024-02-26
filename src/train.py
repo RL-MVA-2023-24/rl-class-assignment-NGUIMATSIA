@@ -49,7 +49,7 @@ class ProjectAgent:
 
     def load(self):
         device = torch.device('cpu')
-        self.path = "/home/runner/work/rl-class-assignment-NGUIMATSIA/model_DQN_best.pt"
+        self.path = "/home/runner/work/rl-class-assignment-NGUIMATSIA/src/model_DQN_best.pt"
         self.model = self.network({}, device)
         self.model.load_state_dict(torch.load(self.path, map_location=device))
         self.model.eval()
