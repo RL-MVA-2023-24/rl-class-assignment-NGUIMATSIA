@@ -43,7 +43,7 @@ class ProjectAgent:
 
 
     def save(self):
-        self.path = "/content/gdrive/My Drive/RL/rl-class-assignment-NGUIMATSIA/src/model_DQN_best.pt"
+        self.path = "C:/Users/frank/Assign/rl-class-assignment-NGUIMATSIA/src/model_DQN_best.pt"
         torch.save(self.model.state_dict(), self.path)
         return 
 
@@ -119,14 +119,14 @@ class ProjectAgent:
         # Configuration 
         config = {'nb_actions': environment.action_space.n,
                 'learning_rate': 0.001,
-                'gamma': 0.98,
-                'buffer_size': 1000000,
+                'gamma': 0.95,
+                'buffer_size': 1500000,
                 'epsilon_min': 0.02,
                 'epsilon_max': 1.,
                 'epsilon_decay_period': 20000, 
                 'epsilon_delay_decay': 100,
                 'batch_size': 800,
-                'gradient_steps': 2,
+                'gradient_steps': 3,
                 'update_target_strategy': 'replace', # ou 'ema'
                 'update_target_freq': 400,
                 'update_target_tau': 0.005,
@@ -172,7 +172,7 @@ class ProjectAgent:
         previous_val = 0
         
 
-        max_episode = 1000
+        max_episode = 250
 
         episode_return = []
         episode = 0
@@ -213,8 +213,8 @@ class ProjectAgent:
             step += 1
             if done or trunc:
                 episode += 1
-                if episode > 80:
-                    validation_score = evaluate_HIV(agent=self, nb_episode=5)
+                if episode > 130:
+                    validation_score = evaluate_HIV(agent=self, nb_episode=7)
                 else :
                     validation_score = 0
                 print("Episode ", '{:3d}'.format(episode), 
@@ -238,7 +238,6 @@ class ProjectAgent:
                 state = next_state
 
 
-        #self.model.load_state_dict(self.best_model.state_dict())
-        #self.save()
+
         return episode_return
 
