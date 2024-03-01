@@ -43,17 +43,12 @@ class ProjectAgent:
 
 
     def save(self):
-        self.path = "C:/Users/frank/Assign/rl-class-assignment-NGUIMATSIA/src/model_DQN_best.pt"
-        torch.save(self.model.state_dict(), self.path)
-        return 
+        torch.save(self.model.state_dict(), "model_DQN_best.pt")
+
 
     def load(self):
-        device = torch.device('cpu')
-        self.path = os.getcwd() + "/src/model_DQN_best.pt"
-        self.model = self.network({}, device)
-        self.model.load_state_dict(torch.load(self.path, map_location=device))
-        self.model.eval()
-        return 
+        self.model.load_state_dict(torch.load("model_DQN_best.pt"))
+    
 
     def network(self, config, device):
 
